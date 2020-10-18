@@ -29,6 +29,7 @@ export class MainPageComponent implements OnInit {
   numberArr: string[] = [];
   sendNumberList: any[] = [];
   inputError: boolean = false;
+  sendImageList: any[] = [];
   constructor(private webSocketAPI: FillingSocketAPI,
     private http: HttpClient, private userInteractionService: UserInteractionService) { }
 
@@ -194,6 +195,7 @@ export class MainPageComponent implements OnInit {
   }
 
   uploadImage() {
+
     const formData = new FormData();
     formData.append('file', this.fileData);
     this.userInteractionService.uploadImage(formData)
@@ -206,7 +208,6 @@ export class MainPageComponent implements OnInit {
   }
 
   sendNumber(numListInput: string) {
-    debugger
     // let reg = new RegExp("^[1-8](,[1-8])*$");
     let valid = numListInput.match(/^[0-9]+(,[0-9]+)*$/);
     if (!valid) {

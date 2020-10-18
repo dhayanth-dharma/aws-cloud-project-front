@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col-md">
       <div class="row" style="margin-bottom: 1%;">
-        <div class="col-md-10"><input type="text" class="form-control" #numListInput placeholder="Ex # 1,2,3,4,5">
+        <div class="col-md-9"><input type="text" class="form-control" #numListInput placeholder="Ex # 1,2,3,4,5">
 
         </div>
-        <div class="col-md-2"><button type="button" (click)="sendNumber(numListInput.value)"
-            class="btn btn-primary">send</button></div>
+        <div class="col-md-3"><button type="button" (click)="sendNumber(numListInput.value)"
+            class="btn btn-primary col-md-12">send</button></div>
       </div>
       <div class="row">
         <div class="col-md-10">
@@ -19,7 +19,7 @@
 
         <table class="table table-striped">
           <tbody>
-            <tr>
+            <!-- <tr>
               <td>
                 <h3>System Status</h3>
               </td>
@@ -29,7 +29,7 @@
               <td *ngIf="!is_connected">
                 <h3>Unknown</h3>
               </td>
-            </tr>
+            </tr> -->
             <tr>
               <td>#ID</td>
               <td>REQUEST</td>
@@ -74,37 +74,30 @@
 
 
     </div>
+
     <div class="col-md">
-      <div class="card">
-        <div class="card-body">
-          Channel ID <h5 class="card-title">2145421-324</h5>
-        </div>
-      </div>
-      <div class="card" style="width: 100%;">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card-body">
-              <h5 class="card-title">Process progress</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Messaging Progress {{process_status}}</h6>
-              <div *ngIf="is_started" class="spinner-grow" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card-body">
-              <h2 class="card-title">{{process_percent}}%</h2>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
       <div>
         <div class="container">
           <div class="row">
-            <div class="col-md-6 offset-md-3">
-              <h3>Choose File</h3>
+            <div class="col-md-4">
+              <div class="form-group">
+                <input type="file" name="image" (change)="fileProgress($event)" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div *ngIf="fileUploadProgress">
+                Upload progress: {{ fileUploadProgress }}
+              </div>
+            </div>
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <button type="button" class="btn btn-primary" (click)="uploadImage()">Submit</button>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-6 offset-md-3">
+              <h>Choose File</h>
               <div class="form-group">
                 <input type="file" name="image" (change)="fileProgress($event)" />
               </div>
@@ -122,14 +115,34 @@
               <div class="form-group">
                 <button type="button" class="btn btn-primary" (click)="uploadImage()">Submit</button>
               </div>
+            </div> -->
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="width: 100%; height: 20em; overflow-y: scroll;">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card-body">
+              <h5 class="card-title">Original</h5>
+              <img [src]="previewUrl" style="width: 122%; height: 174px" class="rounded float-left" alt="...">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card-body">
+              <h5 class="card-title">Altered</h5>
+              <img [src]="previewUrl" style="width: 122%; height: 174px" class="rounded float-left" alt="...">
             </div>
           </div>
         </div>
       </div>
 
     </div>
-
   </div>
+
+  <!-- LOG AREA -->
   <div class="row" style="margin-top: 3rem;">
     <div class="col-md-12">
       <div class="card text-center">
@@ -139,14 +152,36 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm">
-              <!-- <h5 class="card-title">Power Management</h5>
-              <h6>{{_power_value}}%</h6> -->
-
-            </div>
-            <div class="col-sm">
-              <!-- <h5 class="card-title">Waste Management</h5>
-              <h6>2 Cups</h6> -->
-
+              <h5 class="card-title">Logs</h5>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2">Larry the Bird</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
 
             </div>
           </div>
