@@ -1,0 +1,77 @@
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="/assets/img/log.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+    CPS2-PROJECT
+  </a>
+  <div class="form-inline my-2 my-lg-0">
+    <button class="btn btn-outline-warning my-2 my-sm-0" type="button" (click)="openLg(longContent)">interupt</button>
+  </div>
+</nav>
+
+<!-- modal -->
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">User Interuption </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Content&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #longContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">User Interuption</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <user-interaction (closeModal)="modal.close('Close click')"></user-interaction>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+
+<!-- end  modal -->
+
+<!-- status indicator  -->
+<div class="col-md ">
+  <span *ngIf="is_connected" class="dot-success float-right" style="margin-top: 1rem;"></span>
+  <span *ngIf="!is_connected && !is_offline" class="dot-danger float-right" style="margin-top: 1rem;"></span>
+  <span *ngIf="is_offline" class="dot-warning float-right" style="margin-top: 1rem;"></span>
+</div>
+
+<div class="row">
+  <div class="col-md">
+    <h1 class="display-4">CLOUD-COMPUTING </h1>
+  </div>
+  <div class="col-md"></div>
+
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="mx-auto w-50 p-3 bg-dark text-white text-center">
+      <!-- <div class="spinner-grow pull-left" role="status">
+          <span class="sr-only">Loading...</span> 
+        </div> -->
+      <span> <code>Message : </code> {{_message}}</span>
+      <div *ngIf="_message_2" class="d-flex justify-content-center">
+        <div class="p-2">{{_message_2}}</div>
+        <div class="p-2">{{_message_3}}</div>
+        <!-- <div class="p-2">Flex item 3</div> -->
+      </div>
+
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

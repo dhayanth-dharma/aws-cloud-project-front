@@ -1,0 +1,41 @@
+.dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+  }
+  .dark-modal .close {
+    color: white;
+  }
+  .light-blue-backdrop {
+    background-color: #5cb3fd;
+  }
+
+  .dot {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .dot-danger {
+    height: 25px;
+    width: 25px;
+    background-color: #ff1a12;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .dot-success {
+    height: 25px;
+    width: 25px;
+    background-color: #0eed02;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-warning {
+    height: 25px;
+    width: 25px;
+    background-color: rgb(246, 162, 4);
+    border-radius: 50%;
+    display: inline-block;
+  }
