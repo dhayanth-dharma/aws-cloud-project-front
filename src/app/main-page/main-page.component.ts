@@ -30,6 +30,7 @@ export class MainPageComponent implements OnInit {
   sendNumberList: any[] = [];
   inputError: boolean = false;
   sendImageList: any[] = [];
+  logData: any[] = [];
   constructor(private webSocketAPI: FillingSocketAPI,
     private http: HttpClient, private userInteractionService: UserInteractionService) { }
 
@@ -107,10 +108,55 @@ export class MainPageComponent implements OnInit {
       let index = this.sendNumberList.findIndex(o => o.id === obj.id);
       this.sendNumberList[index] = obj;
     }
+    if (message.page_id == 2 && message.func_id == 201) {
+      debugger
+      this.downloadImageV2(message.message);
+    }
+    if (message.page_id == 2 && message.func_id == 203) {
+      this.convertUTF8StringToBytes(message.message);
+    }
+    if (message.page_id == 2 && message.func_id == 204) {
+      debugger
+      this.logData = JSON.parse(message.message);
+      console.log(this.logData);
+    }
     this._message = message.message;
+  }
 
+  downloadImage(key: string) {
+    this.userInteractionService.downloadImage(key)
+      .subscribe(data => this.downloadFile(data)),//console.log(data),
+      error => console.log('Error downloading the file.'),
+      () => console.info('OK');
+  }
+  downloadImageV2(key: string) {
+    debugger
+    this.userInteractionService.downloadFilev(key)
+      .subscribe((resp: any) => {
+        this.downloadFileV2(resp, key);
+        // saveAs(resp, `filename.csv`)
+      });
+  }
+  downloadFile(data: any) {
+    debugger
+    const blob = new Blob([data], { type: 'jpg' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+  }
+  downloadFileV2(response: any, key: any) {
+    debugger
+    // var contentDisposition = response.headers('Content-Disposition');
+    // var filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim();
+    // // 
+    let dataType = response.type;
+    let binaryData = [];
+    binaryData.push(response);
+    let downloadLink = document.createElement('a');
+    downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
 
-
+    downloadLink.setAttribute('download', "");
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
   }
 
   reset() {
@@ -168,6 +214,29 @@ export class MainPageComponent implements OnInit {
     this.preview();
   }
 
+  convertUTF8StringToBytes(str) {
+    debugger
+    let obj = JSON.parse(str);
+    var utf8 = unescape(encodeURIComponent(obj));
+    var arr = [];
+    for (var i = 0; i < utf8.length; i++) {
+      arr.push(utf8.charCodeAt(i));
+    }
+    debugger
+    // console.log(arr);
+    // const reader = new FileReader();
+    // reader.onload = (e: any) => this.previewUrl = e.target.result;
+    // reader.readAsDataURL(new Blob(arr));
+
+    // return arr;
+    let uints = new Uint8Array(arr);
+    var base64 = btoa(String.fromCharCode(null, obj));
+    this.previewUrl = 'data:image/jpeg;base64,' + base64;
+
+  }
+
+
+
   preview() {
     // Show preview 
     var mimeType = this.fileData.type;
@@ -195,15 +264,19 @@ export class MainPageComponent implements OnInit {
   }
 
   uploadImage() {
-
+    // this.http.get("http://localhost:8080/api/s3/download")
+    //   .subscribe(res => {
+    //     console.log(res);
+    //   })
+    // return;
     const formData = new FormData();
     formData.append('file', this.fileData);
+    debugger
     this.userInteractionService.uploadImage(formData)
       .subscribe((res: any) => {
-
         console.log(res);
-        this.uploadedFilePath = res.data.filePath;
-        alert('SUCCESS !!');
+        // this.uploadedFilePath = res.data.filePath;
+        alert('Successfully uploaded!!');
       });
   }
 

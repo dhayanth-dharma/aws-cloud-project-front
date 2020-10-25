@@ -4,6 +4,7 @@ import { response_ } from './response-model';
 @Injectable()
 export class FillingSocketAPI {
     webSocketEndPoint: string = 'ws://localhost:8080/potting_initiate_connect';
+    // webSocketEndPoint: string = 'ws://54.210.5.160:8282/potting_initiate_connect';
 
     topic: string = "/topic/greetings";
     stompClient: any;

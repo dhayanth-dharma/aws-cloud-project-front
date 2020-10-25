@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 // import { Http, Response, Headers, RequestOptions } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -18,6 +18,7 @@ export class UserInteractionService {
   localUrl: any = "http://localhost:8081/api/interupt/1";
   localUrl2: any = "http://localhost:8081/api/interupt/0";
   localUrl3: any = "http://localhost:8080/api/";
+  // localUrl3: any = "http://ec2-54-210-5-160.compute-1.amazonaws.com:8282/api/";
 
   constructor(private http: HttpClient) { }
 
@@ -34,6 +35,23 @@ export class UserInteractionService {
     return this.http.get<any>(
       this.localUrl2, { observe: 'response' });
   }
+  downloadImage(key: any): Observable<HttpResponse<any>> {
+    let p = new HttpParams();
+    p = p.append('file', key);
+    return this.http.get<any>(
+      this.localUrl3 + "s3/download", { params: p, observe: 'response' });
+  }
+  downloadFilev(key: string): Observable<any> {
+    let p = new HttpParams();
+    p = p.append('file', key);
+    return this.http.get(this.localUrl3 + "s3/download",
+      { params: p, responseType: 'blob' as 'json' });
+    // this.http.get(this.localUrl3 + "s3/download", { params: p, responseType: 'blob' })
+    //   .subscribe((resp: any) => {
+    //     // saveAs(resp, `filename.csv`)
+    //   });
+  }
+
   sendNumberList(numList): Observable<HttpResponse<any>> {
     return this.http.post<any>(
       this.localUrl3 + "sqs/num_l", numList, { observe: 'response' });
