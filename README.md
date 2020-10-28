@@ -12,20 +12,20 @@ The project is consist of three applications.
 >
 > found in `front-app` repository 
 >   
->     This application is an Angular application that developed in order to serve the user interface to the client. All the functionalities were developed based on asynchronous refresh method. 
+>  This application is an Angular application that developed in order to serve the user interface to the client. All the functionalities were developed based on asynchronous refresh method. 
 
 > ## **CLIENT-WORKER**
 >
 > found in `server-routing-client` repository 
 >   
->     This application is a Java Spring Cloud application that act as a client in the [WEB-QUEUE-WORKER] architecture. This application connects to the [front-app] and passing request to the SQS. Also, recieves responses from SQS and send it to the [front-app]. The [front-app] will be communicated using [REST HTTP] and [Web Socket] protocols.   
+>  This application is a Java Spring Cloud application that act as a client in the [WEB-QUEUE-WORKER] architecture. This application connects to the [front-app] and passing request to the SQS. Also, recieves responses from SQS and send it to the [front-app]. The [front-app] will be communicated using [REST HTTP] and [Web Socket] protocols.   
 
 
 > ## **SERVER-WORKER**
 >
 > found in `server-worker` repository 
 >   
->     This application is a Java Java Spring Cloud application that act as a worker in the [WEB-QUEUE-WORKER] architecture. This application perfomrs the computations based on the request. This application only can be communicated through SQS Message and responding to the SQS Message. This application will be hosted in the EC2 Instance.    
+>   This application is a Java Java Spring Cloud application that act as a worker in the [WEB-QUEUE-WORKER] architecture. This application perfomrs the computations based on the request. This application only can be communicated through SQS Message and responding to the SQS Message. This application will be hosted in the EC2 Instance.    
 
 . The detail overview and the implementation of this Project is described `report.pdf` file in our repository.
 
@@ -60,11 +60,10 @@ The project is consist of three applications.
  8. Run tracker-server.jar file
  9. In the User interface there are Specific buttons  which allows to see what  the application is performing. 
 
-## Architecture
-The Cheese-Coin-System developed with two modules, member and tracker server. Tracker server should initially be configured and should run before member start to run. Each member application maintains its own local database which hosted in the localhost using mysql server. Similarly, different member computers should connect their local database to their application by following the above-mentioned steps. Configuration files should be modified according to the given instruction to make successful communication to the ***Tracker server*** as well as the database. Initially, the member should register to the application. That step will create a record in Tracker server. Then when a new member joins again, he will be shared with the existing member list to share the network. Similarly, the network grows based on each member registration. The transaction, cheese-stack will be shared among members. 
+
 
 #### NOTE!!!
-> If you want to use two or more computers must join the same network.
+> Please refer `report.pdf` for more information. 
 
 ## Stack
 * Java Spring boot v2
