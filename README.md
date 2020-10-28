@@ -10,6 +10,11 @@
 >**Dhayananth Dharmalingam**
 
 (Video demo : [click-here](https://github.com/ujm-cloud-computing-open))
+
+## Project Overview 
+![Alt text](https://raw.githubusercontent.com/ujm-cloud-computing-open/front-app/main/proj-architecture.png "Project architecture")
+
+
 ## About the Project
 
 This project is developed in order to demostrate AWS Cloud Services by following **WEB-QUEUE-WORKER** architecture. 
