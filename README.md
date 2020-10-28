@@ -1,5 +1,15 @@
 # Cloud Computing Project
+## Project Members : 
 
+>**Poulomi Nandy**
+
+>**Aninda Maulik**
+
+>**Aditya Das**
+
+>**Dhayananth Dharmalingam**
+
+(Video demo : [click-here](https://github.com/ujm-cloud-computing-open))
 ## About the Project
 
 This project is developed in order to demostrate AWS Cloud Services by following **WEB-QUEUE-WORKER** architecture. 
@@ -29,15 +39,8 @@ The project is consist of three applications.
 
 . The detail overview and the implementation of this Project is described `report.pdf` file in our repository.
 
-## Project Members : 
 
->**Aditya Das**
 
->**Aninda Maulik**
-
->**Dhayananth Dharmalingam**
-
->**Poulomi Nandy**
 
 ## How to get started with the Project
  
@@ -55,10 +58,9 @@ The project is consist of three applications.
     * aws.s3.bucket.image_list.edited.folder: Your AWS S3 Bucket **folder** name for **edited** image storing
 
  5. Import the project to Eclipse as Maven Project. (Here is the link : [click-here](https://www.eclipse.org/downloads/packages/installer))
- 6. Start
- 7. Run cheese-coin-system.jar file in build folder. (Follow same step for server)
- 8. Run tracker-server.jar file
- 9. In the User interface there are Specific buttons  which allows to see what  the application is performing. 
+ 7. Run the java application
+ 8. Run the front-app (see below for instruction)
+ 9. In the User interface there are Specific buttons  which allows to see what the application is performing. 
 
 
 
