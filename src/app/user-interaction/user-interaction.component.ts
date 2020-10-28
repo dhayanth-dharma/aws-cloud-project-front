@@ -18,52 +18,5 @@ export class UserInteractionComponent implements OnInit {
 
 
   }
-  handleMessage(message: response_) {
 
-  }
-
-  getStatus() {
-    this.userIntService.getStatus().subscribe(resp => {
-      console.log(resp);
-      const keys = resp.headers.keys();
-      this.headers = keys.map(key =>
-        `${key}: ${resp.headers.get(key)}`);
-      // for (const data of resp.body) {
-      //   this.smartphone.push(data);
-      // }
-      debugger
-      console.log(this.smartphone);
-    });
-  }
-
-  fileProgress(event) {
-
-  }
-  operateResponse(comnt: any) { }
-
-  resolveChange() {
-
-    this.getStatus();
-  }
-
-  Stop_() {
-    this.closeModal.emit();
-    this.userIntService.stopCommand()
-      .subscribe(res => {
-        debugger;
-      }, err => {
-        console.log(err);
-      });
-  }
-  Start_() {
-
-    this.closeModal.emit();
-    this.userIntService.startCommand()
-      .subscribe(res => {
-        debugger;
-      }, err => {
-        console.log(err);
-      });
-
-  }
 }

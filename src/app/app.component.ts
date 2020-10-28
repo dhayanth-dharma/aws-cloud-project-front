@@ -8,7 +8,6 @@ import { response_ } from './api-socket/response-model';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  // webSocketAPI: FillingSocketAPI;
   greeting: any;
   name: string = "daya";
   title = 'gui1-user-interaction-filling';
@@ -21,16 +20,12 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    // this.webSocketAPI = new FillingSocketAPI(new AppComponent());
-    // this.connect();
-    // this.sendMessage();
     this.webSocketAPI.toggle.subscribe(res => {
       this.handleMessage(res);
     });
   }
 
   handleMessage(message: response_) {
-    // this.greeting = message;
     if (message.page_id != this.my_page_id) {
 
       return;
@@ -53,7 +48,4 @@ export class AppComponent {
     this.webSocketAPI._send_ws(this.name);
   }
 
-  // handleMessage(message){
-  //   this.greeting = message;
-  // }
 }

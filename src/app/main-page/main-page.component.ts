@@ -31,6 +31,7 @@ export class MainPageComponent implements OnInit {
   inputError: boolean = false;
   sendImageList: any[] = [];
   logData: any[] = [];
+  waitingImage: boolean = false;
   constructor(private webSocketAPI: FillingSocketAPI,
     private http: HttpClient, private userInteractionService: UserInteractionService) { }
 
@@ -49,56 +50,10 @@ export class MainPageComponent implements OnInit {
     if (message.page_id == 2 && message.func_id == 101) {
       this.is_connected = true;
     }
-    if (message.page_id == 2 && message.func_id == 102) {
-      this.process_status = "Started";
-      this.cup_size = message.arg;
-    }
-    if (message.page_id == 2 && message.func_id == 103) {
-      this.process_status = "in-progress";
-      this.cup_size_letr = message.arg;
-      this.is_started = true;
-    }
-    if (message.page_id == 2 && message.func_id == 104) {
-
-      this.prod_avail = message.arg;
-
-    }
-    if (message.page_id == 2 && message.func_id == 105) {
-      this.process_percent = message.arg;
-    }
-    if (message.page_id == 2 && message.func_id == 106) {
-      this.is_cup_presence = true;
-    }
-    if (message.page_id == 3 && message.func_id == 111) {
-      this.is_cup_presence = false;
-      this.is_connected = false;
-      this.process_percent = 0;
-      this.is_started = false;
-      this.system_status = "init";
-      this.cup_size = "init";
-
-      this.is_cup_presence = false;
-      this.is_started = false;
-      this.cup_size_letr = "unknown";
-      this.prod_avail = "Unknown";
-      this.process_status = "Not Initiated";
-
-    }
-    if (message.page_id == 2 && message.func_id == 114) {
-      this._power_value = message.arg;
-    }
-    if (message.page_id == 3 && message.func_id == 112) {
-      this.setOffline();
-      console.log(message);
-    }
     if (message.page_id == 3 && message.func_id == 113) {
       this.setOnline();
     }
 
-    if (message.page_id == 2 && message.func_id == 108) {
-      this.reset();
-
-    }
     if (message.page_id == 2 && message.func_id == 118) {
       this.potting_speed = message.arg;
     }
@@ -109,14 +64,10 @@ export class MainPageComponent implements OnInit {
       this.sendNumberList[index] = obj;
     }
     if (message.page_id == 2 && message.func_id == 201) {
-      debugger
       this.downloadImageV2(message.message);
     }
-    if (message.page_id == 2 && message.func_id == 203) {
-      this.convertUTF8StringToBytes(message.message);
-    }
     if (message.page_id == 2 && message.func_id == 204) {
-      debugger
+      //LOG DATA
       this.logData = JSON.parse(message.message);
       console.log(this.logData);
     }
@@ -130,64 +81,28 @@ export class MainPageComponent implements OnInit {
       () => console.info('OK');
   }
   downloadImageV2(key: string) {
-    debugger
     this.userInteractionService.downloadFilev(key)
       .subscribe((resp: any) => {
         this.downloadFileV2(resp, key);
-        // saveAs(resp, `filename.csv`)
       });
   }
   downloadFile(data: any) {
-    debugger
     const blob = new Blob([data], { type: 'jpg' });
     const url = window.URL.createObjectURL(blob);
     window.open(url);
   }
   downloadFileV2(response: any, key: any) {
-    debugger
-    // var contentDisposition = response.headers('Content-Disposition');
-    // var filename = contentDisposition.split(';')[1].split('filename')[1].split('=')[1].trim();
-    // // 
     let dataType = response.type;
     let binaryData = [];
     binaryData.push(response);
     let downloadLink = document.createElement('a');
     downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
-
+    this.waitingImage = false;
     downloadLink.setAttribute('download', "");
     document.body.appendChild(downloadLink);
     downloadLink.click();
   }
 
-  reset() {
-    this.is_cup_presence = false;
-    this.is_connected = true;
-    this.process_percent = 0;
-    this.is_started = true;
-    this.system_status = "init";
-    this.cup_size = "init";
-    this.potting_speed = "init";
-    this.is_cup_presence = false;
-    this.is_started = false;
-    this.cup_size_letr = "unknown";
-    this.prod_avail = "Unknown";
-    this.process_status = "Not Initiated";
-  }
-  setOffline() {
-
-    this.is_cup_presence = false;
-    this.is_connected = false;
-    this.process_percent = 0;
-    this.is_started = false;
-    this.system_status = "offline";
-    this.cup_size = "init";
-    this.potting_speed = "init";
-    this.is_cup_presence = false;
-    this.is_started = false;
-    this.cup_size_letr = "unknown";
-    this.prod_avail = "Unknown";
-    this.process_status = "Not Initiated";
-  }
   setOnline() {
     this.is_cup_presence = false;
     this.is_connected = true;
@@ -213,30 +128,6 @@ export class MainPageComponent implements OnInit {
     this.fileData = <File>fileInput.target.files[0];
     this.preview();
   }
-
-  convertUTF8StringToBytes(str) {
-    debugger
-    let obj = JSON.parse(str);
-    var utf8 = unescape(encodeURIComponent(obj));
-    var arr = [];
-    for (var i = 0; i < utf8.length; i++) {
-      arr.push(utf8.charCodeAt(i));
-    }
-    debugger
-    // console.log(arr);
-    // const reader = new FileReader();
-    // reader.onload = (e: any) => this.previewUrl = e.target.result;
-    // reader.readAsDataURL(new Blob(arr));
-
-    // return arr;
-    let uints = new Uint8Array(arr);
-    var base64 = btoa(String.fromCharCode(null, obj));
-    this.previewUrl = 'data:image/jpeg;base64,' + base64;
-
-  }
-
-
-
   preview() {
     // Show preview 
     var mimeType = this.fileData.type;
@@ -251,37 +142,18 @@ export class MainPageComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    // https://w3path.com/new-angular-8-file-upload-or-image-upload/
-    const formData = new FormData();
-    formData.append('file', this.fileData);
-    this.http.post('url/to/your/api', formData)
-      .subscribe((res: any) => {
-        console.log(res);
-        this.uploadedFilePath = res.data.filePath;
-        alert('SUCCESS !!');
-      })
-  }
-
   uploadImage() {
-    // this.http.get("http://localhost:8080/api/s3/download")
-    //   .subscribe(res => {
-    //     console.log(res);
-    //   })
-    // return;
+    this.waitingImage = true;
     const formData = new FormData();
     formData.append('file', this.fileData);
-    debugger
     this.userInteractionService.uploadImage(formData)
       .subscribe((res: any) => {
         console.log(res);
-        // this.uploadedFilePath = res.data.filePath;
-        alert('Successfully uploaded!!');
+
       });
   }
 
   sendNumber(numListInput: string) {
-    // let reg = new RegExp("^[1-8](,[1-8])*$");
     let valid = numListInput.match(/^[0-9]+(,[0-9]+)*$/);
     if (!valid) {
       console.log("succes");
